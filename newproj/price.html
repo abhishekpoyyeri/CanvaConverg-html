@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .login-header p {
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            border-color: #4e6ef2;
+            outline: none;
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
+        }
+        
+        .forgot-password {
+            color: #4e6ef2;
+            text-decoration: none;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background-color: #4e6ef2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .login-button:hover {
+            background-color: #3c54c4;
+        }
+        
+        .signup {
+            text-align: center;
+            margin-top: 25px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .signup a {
+            color: #4e6ef2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .signup a:hover {
+            text-decoration: underline;
+        }
+        
+        .separator {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+        }
+        
+        .separator .line {
+            flex: 1;
+            height: 1px;
+            background-color: #ddd;
+        }
+        
+        .separator .or {
+            padding: 0 15px;
+            color: #777;
+            font-size: 14px;
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .social-btn:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .social-btn img {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="login-header">
+          <button onclick="flipCoin()">Flip Quantum Coin</button>
+          <div class="quantum-state" id="quantumState">
+              Click to flip the quantum coin!
+          </div>
+          <div class="quantum-circuit" id="circuitDiagram"></div>
+            <h1>Welcome Back</h1>
+            <p>Please enter your details to sign in</p>
+        </div>
+        
+        <form>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+            
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Remember me</label>
+                </div>
+                <a href="#" class="forgot-password">Forgot password?</a>
+            </div>
+            
+            <button type="submit" class="login-button">Sign In</button>
+        </form>
+        
+        <div class="separator">
+            <div class="line"></div>
+            <div class="or">OR</div>
+            <div class="line"></div>
+        </div>
+        
+        <div class="social-login">
+            <button class="social-btn">
+                <img src="/api/placeholder/18/18" alt="Google icon"> Google
+            </button>
+            <button class="social-btn">
+                <img src="/api/placeholder/18/18" alt="Facebook icon"> Facebook
+            </button>
+        </div>
+        
+        <div class="signup">
+            <p>Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+    </div>
+
+      <script src="https://cdn.jsdelivr.net/npm/quantum-circuit@0.9.226/dist/quantum-circuit.min.js"></script>
+    <script>
+        async function flipCoin() {
+    const button = document.querySelector('button');
+    const coin = document.querySelector('.coin');
+    const quantumState = document.getElementById('quantumState');
+    
+    // Disable button during flip
+    button.disabled = true;
+    
+    // Clear and prepare quantum state display
+    quantumState.innerHTML = `
+        <div class="fade-in" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: left;">
+            <div id="initial-state">
+                <div style="color: #00ffff; margin-bottom: 10px">Initial State:</div>
+                <div style="font-family: monospace;">|ψ⟩ = |0⟩</div>
+            </div>
+            <div id="superposition-state" style="opacity: 0">
+                <div style="color: #00ffff; margin-bottom: 10px">Superposition:</div>
+                <div style="font-family: monospace;">H|0⟩ → |ψ⟩ = (|H⟩ + |T⟩)/√2</div>
+                <div style="font-size: 0.8em; margin-top: 5px">Both heads and tails at once!</div>
+            </div>
+            <div id="final-state" style="opacity: 0">
+                <div style="color: #00ffff; margin-bottom: 10px">Measurement:</div>
+                <div id="measurement-result"></div>
+            </div>
+        </div>
+    `;
+    
+    // Add circuit diagram
+    const circuitDiagram = document.getElementById('circuitDiagram');
+    circuitDiagram.innerHTML = `
+        <svg width="400" height="100" viewBox="0 0 400 100">
+            <!-- Main quantum wire -->
+            <line class="quantum-wire" x1="50" y1="50" x2="350" y2="50" />
+            
+            <!-- Initial state -->
+            <text x="30" y="55" fill="white">|0⟩</text>
+            
+            <!-- H gate -->
+            <rect class="gate" x="100" y="35" width="30" height="30" />
+            <text x="108" y="55" fill="white">H</text>
+            
+            <!-- Parallel universe representation -->
+            <g class="parallel-universe">
+                <line class="parallel-lines" x1="150" y1="30" x2="250" y2="30" />
+                <line class="parallel-lines" x1="150" y1="70" x2="250" y2="70" />
+                <text x="180" y="25" fill="#00ffff" font-size="12">|H⟩</text>
+                <text x="180" y="90" fill="#00ffff" font-size="12">|T⟩</text>
+            </g>
+            
+            <!-- Measurement symbol -->
+            <path class="measurement" d="M270,35 L290,35 L290,65 L270,65 Z" />
+            <text x="320" y="55" fill="white" id="measurementText">?</text>
+        </svg>
+    `;
+    circuitDiagram.style.opacity = '1';
+    
+    // Show superposition after initial delay
+    await new Promise(resolve => setTimeout(resolve, 800));
+    document.getElementById('superposition-state').style.opacity = '1';
+    
+    // Add flipping animation with quantum "glitch" effect
+    coin.classList.add('flipping');
+    coin.style.animation = 'flip 1.5s ease-in-out, quantum-glitch 0.2s infinite';
+    
+    try {
+        // Create quantum circuit with 1 qubit
+        const circuit = new QuantumCircuit(1);
+        circuit.addGate("h", 0, [0]);
+        circuit.run();
+        const measurement = circuit.measure(0);
+        
+        // Wait for animation
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        // Update measurement result without additional delay
+        const finalState = document.getElementById('final-state');
+        const measurementResult = document.getElementById('measurement-result');
+        finalState.style.opacity = '1';
+        
+        if (measurement === 0) {
+            measurementResult.innerHTML = `
+                <div style="color: #00ff00">Heads!</div>
+                <div style="font-size: 0.8em">State: |H⟩</div>
+            `;
+            coin.style.transform = 'rotateY(0deg)';
+            document.getElementById('measurementText').textContent = 'H';
+        } else {
+            measurementResult.innerHTML = `
+                <div style="color: #00ff00">Tails!</div>
+                <div style="font-size: 0.8em">State: |T⟩</div>
+            `;
+            coin.style.transform = 'rotateY(180deg)';
+            document.getElementById('measurementText').textContent = 'T';
+        }
+        
+    } catch (error) {
+        quantumState.textContent = "Error: " + error.message;
+    }
+    
+    // Reset circuit diagram
+    setTimeout(() => {
+        circuitDiagram.style.opacity = '0';
+    }, 2000);
+    
+    // Remove animations and enable button
+    coin.style.animation = '';
+    coin.classList.remove('flipping');
+    button.disabled = false;
+} 
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Converge</title>
+    <style>
+        :root {
+            --primary: #efc544;
+            --secondary: #6f4e37;
+            --accent: #FFE66D;
+            --light: #efe9e0;
+            --dark: #262424;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: #262424;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color:black;
+            border: 1px var(--secondary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .hero {
+            display: flex;
+            align-items: center;
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 2rem;
+        }
+        
+        .hero-content {
+            flex: 1;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+        
+        h1 span {
+            color: var(--secondary);
+        }
+        
+        p.lead {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+        
+        .features {
+            background-color: white;
+            padding: 5rem 5%;
+        }
+        
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .gallery {
+            padding: 5rem 5%;
+            background-color: var(--light);
+        }
+        
+        .gallery-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .art-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .art-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            aspect-ratio: 1;
+        }
+        
+        .art-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .art-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .art-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .art-item:hover .art-info {
+            opacity: 1;
+        }
+        
+        .communities {
+            padding: 5rem 5%;
+            background-color: white;
+        }
+        
+        .communities-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .community-card {
+            background-color: var(--light);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .community-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .community-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        
+        .community-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .community-card p {
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+        
+        .testimonials {
+            padding: 5rem 5%;
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .testimonials-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .testimonials .section-title h2 {
+            color: white;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .testimonial-author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .author-info span {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .cta {
+            padding: 5rem 5%;
+            background-color: var(--light);
+            text-align: center;
+        }
+        
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #555;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+        }
+        
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-logo span {
+            color: var(--secondary);
+        }
+        
+        .footer-links h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.6);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+        
+        .social-icons a:hover {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                padding: 3rem 5%;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .navbar {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .nav-links {
+                margin: 1rem 0;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Canvas<span>Converge</span></div>
+            <div class="nav-links">
+                <a href="#">Explore</a>
+                <a href="community.html">Communities</a>
+                <a href="#events">Events</a>
+                <a href="#learn">Learn</a>
+                <a href="#about">About</a>
+              
+            </div>
+            <div class="auth-buttons">
+                <a href="#login" class="btn btn-outline">Log In</a>
+    <style>
+        /* Styles for the modal */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: rgb(21, 8, 8);
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        /* Close button */
+        .close {
+            color: rgb(2, 2, 2);
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+        }
+    </style>
+  <!-- The Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <input type="text" placeholder="Username"><br><br>
+            <input type="password" placeholder="Password"><br><br>
+            <button>Submit</button>
+        </div>
+    </div>
+    <script>
+      
+        var modal = document.getElementById("loginModal");
+        var btn = document.getElementsByClassName("btn btn-outline")[0];
+        var closeBtn = document.getElementsByClassName("close")[0];
+        const quantumState = document.getElementById('quantumState');
+
+        // Show modal when button is clicked
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // Hide modal when close button is clicked
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Hide modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+                <a href="#signup" class="btn btn-primary">Sign Up Free</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Connect through <span>creativity</span> across borders</h1>
+            <p class="lead">Join a global community of artists and art enthusiasts. Share your work, discover amazing art from around the world, and collaborate with creators from different cultures and backgrounds.</p>
+            <div class="auth-buttons">
+                <a href="#signup" class="btn btn-primary">Start Creating</a>
+                <a href="#explore" class="btn btn-outline">Explore Art</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://i.pinimg.com/736x/e4/ce/19/e4ce197f122c2ff21693c61401f7581d.jpg" alt="Artists from around the world sharing their work" />
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="features-container">
+            <div class="section-title">
+                <h2>How CanvasConverge Works</h2>
+                <p>A platform built for artists, by artists</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Share Your Art</h3>
+                    <p>Upload your creations to your personal gallery and share them with a global audience. Support for all art forms including digital, traditional, photography, sculpture, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌏</div>
+                    <h3>Connect Globally</h3>
+                    <p>Find artists and art lovers from around the world. Break down language barriers with our built-in translation tools and cultural context features.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Join Communities</h3>
+                    <p>Become part of specialized art communities based on styles, mediums, cultures, or themes. Share techniques, get feedback, and grow together.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Collaborative Projects</h3>
+                    <p>Find collaborators for cross-cultural art projects. Create art that bridges perspectives and celebrates diversity through creative expression.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎓</div>
+                    <h3>Learn & Teach</h3>
+                    <p>Exchange techniques and styles from different artistic traditions. Host or join virtual workshops and skill-sharing sessions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>Showcase & Sell</h3>
+                    <p>Optional marketplace features to help artists monetize their work globally while retaining full control of their intellectual property.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="gallery">
+        <div class="gallery-container">
+            <div class="section-title">
+                <h2>Featured Artwork</h2>
+                <p>Discover art from around the world</p>
+            </div>
+           <div class="art-grid">
+                <div class="art-item">
+                    <img src="https://ih1.redbubble.net/image.5198273485.0879/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg" alt="Japanese ink painting" />
+                    <div class="art-info">
+                        <h4>Japanese ink art</h4>
+                        <p> • Japan</p>
+                    </div>
+                </div>
+                <div class="art-item">
+                    <img src="https://i.pinimg.com/736x/88/6c/2d/886c2dd9632df00ec675fdcf6d2fac92.jpg" alt="Painting" />
+                    <div class="art-info">
+                        <h4>Painting</h4>
+                        <p>• Mexico City, Mexico</p>
+                    </div>
+                </div>
+                <div class="art-item">
+                    <img src="https://i.pinimg.com/736x/4e/5a/70/4e5a708bb807b651d5bc52d74155f22a.jpg" alt="Digital Art" />
+                    <div class="art-info">
+                        <h4>Digital Art</h4>
+                        <p>Emma K. • Berlin, Germany</p>
+                    </div>
+                </div>
+                <div class="art-item">
+                    <img src="https://static.vecteezy.com/system/resources/previews/001/834/497/non_2x/colorful-african-textile-design-kente-fabric-print-design-african-culture-free-vector.jpg" alt="African textile design" />
+                    <div class="art-info">
+                        <h4>Pattern Heritage</h4>
+                        <p>Kwame O. • Accra, Ghana</p>
+                    </div>
+                </div>
+                <div class="art-item">
+                    <img src="https://i.pinimg.com/736x/dc/75/7c/dc757c9402f6fe3fc5f2c04645e4442b.jpg">
+                    <div class="art-info">
+                        <h4>Urban Perspectives</h4>
+                        <p>•Bulgaria</p>
+                    </div>
+                </div>
+                <div class="art-item">
+                    <img src="https://i.pinimg.com/736x/18/d8/a8/18d8a8826c0f175ba4e1c42099c7de95.jpg" />
+                    <div class="art-info">
+                        <h4>Sketch art</h4>
+                        <p>•Argentina</p>
+                    </div>
+                </div>
+                <div class="art-item">
+                    <img src="https://i.pinimg.com/736x/4a/5f/ae/4a5fae2add193ace27600572f5e25f67.jpg" alt="Sculpture" />
+                    <div class="art-info">
+                        <h4>sculptures</h4>
+                        <p> • Italy</p>
+                    </div>
+                </div>
+                <div class="art-item">
+                    <img src="https://i.pinimg.com/736x/d7/3b/af/d73baf0de3d751bf5ad4d3aa8cd4e733.jpg" alt="Traditional Art" />
+                    <div class="art-info">
+                        <h4>Traditional Art</h4>
+                        <p> •India</p>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+  
+
+    <section class="cta">
+        <div class="cta-container">
+            <h2>Ready to Connect Through Art?</h2>
+            <p>Join thousands of artists and art enthusiasts from over 150 countries. Create your free account and start sharing your creativity with the world.</p>
+            <div class="cta-buttons">
+                <a href="#signup" class="btn btn-primary">Create Free Account</a>
+                <a href="#learn-more" class="btn btn-outline">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-about">
+                <div class="footer-logo">Canvas<span>Converge</span></div>
+                <p>Bridging cultures through creative expression. A global platform for artists to share, learn, and collaborate across borders.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/>
+                      </svg></a>
+                    <a href="#" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+                        <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+                      </svg></a>
+                    
+                    <a href="#" aria-label="YouTube"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+                        <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+                      </svg></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Platform</h3>
+                <ul>
+                    <li><a href="#">How it Works</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Communities</a></li>
+                    <li><a href="#">Events</a></li>
+                    <li><a href="#">Marketplace</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Artist Guides</a></li>
+                    <li><a href="#">Tutorials</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Success Stories</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Our Mission</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Canvas Converge. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+</body>
+</html>
